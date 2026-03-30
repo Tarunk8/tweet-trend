@@ -13,5 +13,16 @@ environment {
                 sh 'mvn clean deploy'
             }
         }
+
+    stage('SonarQube analysis') {  
+    environment {
+        scannerHome = tool 'devops-sonar-scanner'
+    }  
+    steps{
+    withSonarQubeEnv('devops-sonarqube-server') { // If you have configured more than one
+            sh "${scannerHome}/bin/sonar-scanner"
+        }
+        }
     }
+}
 }
