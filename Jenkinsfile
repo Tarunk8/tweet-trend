@@ -4,11 +4,13 @@ pipeline {
             label 'maven'
         }
     }
-
+enviornment {
+    PATH = "/opt/apache-maven-3.9.14/bin:$PATH"
+}
     stages {
-        stage('Clone-code') {
+        stage("build"){
             steps {
-                git branch: 'main', url: 'https://github.com/Tarunk8/tweet-trend.git'
+                sh 'mvn clean deploy'
             }
         }
     }
