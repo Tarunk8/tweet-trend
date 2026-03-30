@@ -1,57 +1,28 @@
 pipeline {
-    agent any
-
-    tools {
-        maven 'maven-3.9.14'
+    agent {
+        node {
+            label 'maven'
+        }
     }
-
-    environment {
-        SONAR_TOKEN = credentials('SONAR_AUTH_TOKEN')
-    }
-
+environment {
+    PATH = "/opt/apache-maven-3.9.14/bin:$PATH"
+}
     stages {
-
-        stage('Check Maven') {
+        stage("build"){
             steps {
-                sh 'mvn -v'
+                sh 'mvn clean deploy'
             }
         }
 
-        stage('Build') {
-            steps {
-                sh 'mvn clean verify'
-            }
+    stage('SonarQube analysis') {  
+    environment {
+        scannerHome = tool 'devops-sonar-scanner'
+    }  
+    steps{
+    withSonarQubeEnv('devops-sonarqube-server') { // If you have configured more than one
+            sh "${scannerHome}/bin/sonar-scanner"
         }
-
-        stage('SonarCloud Analysis') {
-            steps {
-                withSonarQubeEnv('devops-sonarqube-server') {
-                    sh '''
-                    mvn sonar:sonar \
-                    -Dsonar.projectKey=sonarqube-key_twittertrend \
-                    -Dsonar.organization=sonarqube-key \
-                    -Dsonar.host.url=https://sonarcloud.io \
-                    -Dsonar.login=$SONAR_TOKEN
-                    '''
-                }
-            }
-        }
-
-        stage('Quality Gate') {
-            steps {
-                timeout(time: 2, unit: 'MINUTES') {
-                    waitForQualityGate abortPipeline: true
-                }
-            }
         }
     }
-
-    post {
-        success {
-            echo "✅ Build & Sonar Analysis Successful"
-        }
-        failure {
-            echo "❌ Pipeline Failed - Check logs"
-        }
-    }
+}
 }
