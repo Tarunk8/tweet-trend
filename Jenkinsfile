@@ -1,4 +1,7 @@
 def registry = 'https://trial198pnt.jfrog.io'
+def imageName = 'trial198pnt.jfrog.io/tarun-docker-local/tarun-DI'
+def version   = '2.1.4'
+
 pipeline {
     agent {
         node {
@@ -64,15 +67,12 @@ environment {
             }
         }   
     }   
-    def registry = 'https://trial198pnt.jfrog.io'
-    def imageName = 'trial198pnt.jfrog.io/tarun-docker-local/tarun-DI'
-    def version   = '2.1.4'
     stage(" Docker Build ") {
-    steps {
-        script {
-            echo '<--------------- Docker Build Started --------------->'
-            app = docker.build(imageName+":"+version)
-            echo '<--------------- Docker Build Ends --------------->'
+        steps {
+            script {
+                echo '<--------------- Docker Build Started --------------->'
+                app = docker.build(imageName+":"+version)
+                echo '<--------------- Docker Build Ends --------------->'
         }
     }
     }
@@ -80,11 +80,11 @@ environment {
             stage (" Docker Publish "){
         steps {
             script {
-            echo '<--------------- Docker Publish Started --------------->'  
+                echo '<--------------- Docker Publish Started --------------->'  
                 docker.withRegistry(registry, 'artifact-cred'){
                     app.push()
                 }    
-            echo '<--------------- Docker Publish Ended --------------->'  
+                echo '<--------------- Docker Publish Ended --------------->'  
             }
         }
     }  
