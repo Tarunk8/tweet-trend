@@ -25,7 +25,7 @@ environment {
         }
     }
 
-/*    stage("Quality Gate"){
+    stage("Quality Gate"){
         steps {
             script {
             timeout(time: 1, unit: 'HOURS') { // Just in case something goes wrong, pipeline will be killed after a timeout
@@ -36,6 +36,6 @@ environment {
     }
 }
         }
-*/
     }
+}
 }
