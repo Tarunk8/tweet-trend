@@ -89,7 +89,7 @@ environment {
         }
     }  
     
-    stage  ("Kubernetes deployment"){
+    stage  ("Kubernetes"){
         steps {
             script {
                 sh './deploy.sh'
