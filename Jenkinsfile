@@ -1,6 +1,6 @@
 def registry = 'https://trial198pnt.jfrog.io'
 def imageName = 'trial198pnt.jfrog.io/tarun-docker-local/tarun-docker'
-def version   = '2.1.5'
+def version   = '2.1.4'
 
 pipeline {
     agent {

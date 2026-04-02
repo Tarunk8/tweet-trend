@@ -17,7 +17,7 @@ spec:
       - name: jfrogcred
       containers:
       - name:  valaxy-rtp
-        image: trial198pnt.jfrog.io/tarun-docker-local/tarun-docker:2.1.5
+        image: trial198pnt.jfrog.io/tarun-docker-local/tarun-docker:2.1.4
         imagePullPolicy: Always
         ports:
         - containerPort: 8000
